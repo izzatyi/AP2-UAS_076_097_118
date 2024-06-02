@@ -1,20 +1,33 @@
-#include "card.h"
+    #include <iostream>
+    #include <stdio.h>
+    using namespace std;
 
-Card :: Card(rank r, suit s, bool ifu) : m_Rank(r), m_Suit(s), m_IsFaceUp(ifu)
-{}
+    void HanoiTower(int jumlah_cakram, char dari_tiang, char ke_tiang, char tiang_bantu) {
+        
+        if (jumlah_cakram == 0) 
+        {
+            return;
+        }
+        HanoiTower(jumlah_cakram - 1, dari_tiang, tiang_bantu, ke_tiang);
 
-int Card :: GetValue() const
-{
-    int value = 0;
-    if (m_IsFaceUp)
-    {
-        value = m_Rank;
-        if (value > 10)
-            value = 10;
+        cout << "|  Pindahkan cakram " << jumlah_cakram << " dari tiang " << dari_tiang << " ke tiang " 
+        << ke_tiang << "                  |" << endl;
+
+        HanoiTower(jumlah_cakram - 1, tiang_bantu, ke_tiang, dari_tiang);
     }
-    return value;
-}
 
-void Card :: Flip(){
-    m_IsFaceUp = !m_IsFaceUp;
-}
+    int main() {
+        system("CLS");
+        int jumlah_cakram;
+        printf("================================================================\n");
+        printf("|                    Hanoi Tower Algorithm                     |\n");
+        printf("================================================================\n");
+        cout << "|  Masukkan jumlah cakram: ";
+        cin >> jumlah_cakram;
+        
+        // A, B, dan C adalah nama-nama tiang
+        HanoiTower(jumlah_cakram, 'A', 'C', 'B');
+        printf("========================= SELESAI ==============================\n");
+
+        return 0;
+    }
