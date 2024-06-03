@@ -11,8 +11,8 @@ struct Pesan {
 //Struktur untuk menyimpan langkah-langkah perpindahan cakram
 struct Langkah {
     int cakram;
-    char src;
-    char tgt;
+    char dari;
+    char target;
 };
 
 //Kelas untuk memecahkan puzzle Menara Hanoi
@@ -23,26 +23,26 @@ class MenaraHanoi {
         int index = 0; //Inisialisasi langsung variabel indeks
 
         //Fungsi rekursif untuk memecahkan Menara Hanoi
-        void ToH(int n, char src, char tgt, char aux) {
+        void ToH(int n, char dari, char target, char bantu) {
             if (n == 0) {
                 return; //Jika tidak ada cakram, tidak ada yang perlu dipindahkan
             } else if (n > 0) {
                 //Pindahkan n-1 cakram dari tiang sumber ke tiang bantu
-                ToH(n - 1, src, aux, tgt);
+                ToH(n - 1, dari, bantu, target);
                 //Menyimpan langkah perpindahan cakram ke array
                 langkah[index].cakram = n;
-                langkah[index].src = src;
-                langkah[index].tgt = tgt;
+                langkah[index].dari = dari;
+                langkah[index].target = target;
                 index++;
                 //Pindahkan n-1 cakram dari tiang bantu ke tiang target
-                ToH(n - 1, aux, tgt, src);
+                ToH(n - 1, bantu, target, dari);
             }
         }
 
         //Fungsi untuk menampilkan langkah-langkah solusi
         void LangkahLangkah() {
             for (int i = 0; i < index; ++i) {
-                cout << "Pindahkan cakram " << langkah[i].cakram << " dari " << langkah[i].src << " ke " << langkah[i].tgt << "." << endl;
+                cout << "Pindahkan cakram " << langkah[i].cakram << " dari " << langkah[i].dari << " ke " << langkah[i].target << "." << endl;
             }
         }
 
