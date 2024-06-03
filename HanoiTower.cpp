@@ -1,89 +1,109 @@
-//Header seperti biasa
 #include <iostream>
 #include <vector>
 using namespace std;
 
+//Struktur untuk menyimpan pesan solusi dan selamat tinggal
 struct Pesan {
-    vector<string>Selesai;  //untuk pesan selesai
-    vector<string>Goodbye;  //simpan pesan goodbye
+    vector<string> Solusi;
+    vector<string> SelamatTinggal;
 };
 
-//kelas untuk nyelesaikan hanoi tower
-class Hanoi_Tower {
+//Struktur untuk menyimpan langkah-langkah perpindahan cakram
+struct Langkah {
+    int cakram;
+    char src;
+    char tgt;
+};
+
+//Kelas untuk memecahkan puzzle Menara Hanoi
+class MenaraHanoi {
     public:
-        Pesan Info;
-        //fungsi untuk menyelesaikan permainan hanoi tower
-        void HT(int n, char dari_tiang, char ke_tiang, char tiang_bantu) {
-            if (n == 0) {   //jika tidak ada disk yang harus dipindahkan, fungsi berhenti
-                return;
-            } else if (n > 0) { // melakukan rekursi
-                HT(n - 1, dari_tiang, tiang_bantu, ke_tiang);
-                cout << "Pindahkan disk " << n << " dari " << dari_tiang << " ke " << ke_tiang << "." << endl;
-                HT(n - 1, tiang_bantu, ke_tiang, dari_tiang); //lakuin rekursi dengan nilai yg berbeda
+        Pesan Info; //Objek untuk menyimpan pesan
+        Langkah langkah[200]; //Array untuk menyimpan langkah-langkah perpindahan (maksimal 200 langkah)
+        int index = 0; //Inisialisasi langsung variabel indeks
+
+        //Fungsi rekursif untuk memecahkan Menara Hanoi
+        void ToH(int n, char src, char tgt, char aux) {
+            if (n == 0) {
+                return; //Jika tidak ada cakram, tidak ada yang perlu dipindahkan
+            } else if (n > 0) {
+                //Pindahkan n-1 cakram dari tiang sumber ke tiang bantu
+                ToH(n - 1, src, aux, tgt);
+                //Menyimpan langkah perpindahan cakram ke array
+                langkah[index].cakram = n;
+                langkah[index].src = src;
+                langkah[index].tgt = tgt;
+                index++;
+                //Pindahkan n-1 cakram dari tiang bantu ke tiang target
+                ToH(n - 1, aux, tgt, src);
             }
         }
-        //fungsi untuk menyampaikan pesan bahwa Tower Hanoi sudah selesai
-        void Penyelesaian() {
-            cout << "-------------------------------------\n";
-            Info.Selesai.push_back("Puzzle Tower Hanoi berhasil dipecahkan!");
-            for (int i = 0; i < Info.Selesai.size(); ++i) { //perulangan untuk nampilin pesan selesai karena si pesan dalam bentuk vektor
-                cout << Info.Selesai[i]; //perintah untuk menapilkan pesan di dalam var selesai
+
+        //Fungsi untuk menampilkan langkah-langkah solusi
+        void LangkahLangkah() {
+            for (int i = 0; i < index; ++i) {
+                cout << "Pindahkan cakram " << langkah[i].cakram << " dari " << langkah[i].src << " ke " << langkah[i].tgt << "." << endl;
             }
-            cout << endl; //untuk enter ke baris baru
         }
-        //fungsi untuk menyampaikan pesan goodbye pada user
-        void Bye() {
-            cout << "-------------------------------------\n";
-            Info.Goodbye.push_back("Terima kasih telah menggunakan program Tower Hanoi. Goodbye!");
-            for (int i = 0; i < Info.Goodbye.size(); ++i) { //perulangan untuk menampilkan pesan goodnye
-                cout << Info.Goodbye[i]; //tampilin pesannnya
+
+        //Fungsi untuk menampilkan pesan solusi
+        void PesanSolusi() {
+            cout << "-----------------------------------------\n";
+            Info.Solusi.push_back("Puzzle Menara Hanoi berhasil diselesaikan.");
+            for (int i = 0; i < Info.Solusi.size(); ++i) {
+                cout << Info.Solusi[i];
             }
-            cout << endl;
+            puts("");
+        }
+
+        //Fungsi untuk menampilkan pesan selamat tinggal
+        void PesanSelamatTinggal() {
+            cout << "-----------------------------------------\n";
+            Info.SelamatTinggal.push_back("Terima kasih telah menggunakan pemecah Menara Hanoi. Selamat tinggal!");
+            for (int i = 0; i < Info.SelamatTinggal.size(); ++i) {
+                cout << Info.SelamatTinggal[i];
+            }
+            puts("");
         }
 };
 
 int main() {
-    system("CLS"); //mengahapus layar jika user melakukkan banyak percobaan
+    system("CLS"); //Membersihkan layar konsol
 
-    //dibawah ini merupakan proses inisialisasi
-    int Jml_Disk;
-    int *jumlah_disk_ptr;
-    char ulang;
+    int JumlahCakram;
+    int *ptr;
+    char PecahkanLagi;
 
-    //header untuk di output nanti
-    cout << "=====================================\n";
-    cout << " ## Welcome to the Tower of Hanoi ##\n"; 
-    cout << "=====================================\n";
-    cout << " Ayo Selesaikan Puzzle Tower Hanoi!!!\n";
+    //Pesan selamat datang
+    cout << "   ## Selamat datang di Menara Hanoi ##\n"; 
+    cout << "=========================================\n";
+    cout << "Mari kita pecahkan puzzle Menara Hanoi!\n";
 
-    do { //perulangan do while untuk bertanya diakhir apakah user ingin mengulang atau tidak
-        
+    do {  
+        //Meminta pengguna memasukkan jumlah cakram
         do {
-            cout << "Masukkan jumlah disk : "; //perintah buat masukin jumlah disk
-            cin >> Jml_Disk;  //menerma inputan berapa banyak jumlah cakram/disk
-            jumlah_disk_ptr = &Jml_Disk; //mengalihkan nilai dari var Jml_Disk ke jumlah_disk_jumlah_disk_ptr
-            if (*jumlah_disk_ptr <= 0) { //klo si user masukin nilai negatif,
-                cout << "Masukkan sebuah bilangan bulat positif!\n"; //maka bakalan nampilin ini
+            cout << "Masukkan jumlah cakram : "; 
+            cin >> JumlahCakram;
+            ptr = &JumlahCakram;
+            if (*ptr <= 0) {
+                cout << "Silakan masukkan bilangan bulat positif yang valid.\n";
             }
-        } while (*jumlah_disk_ptr <= 0); //dan melakukan perulangan sampe si user masukkin nilai positif
-        
-        cout << "-------------------------------------\n"; //cuma batas biasa, biar estetik
-        
-        Hanoi_Tower Show; //penamaan objek untuk class hanoi Tower
-        //memanggil fungsi HT untuk menyelesaikan puzzle hanoi tower
-        Show.HT(*jumlah_disk_ptr, 'A', 'C', 'B');
-        Show.Penyelesaian(); //untuk nampilkan pesan di akhir
+        } while (*ptr <= 0);
+        cout << "-----------------------------------------\n";
 
-        //dibawah ini kode untuk bertanya kepada user apakah ingin mengulang
+        MenaraHanoi Tampil;
+        //Memanggil fungsi untuk memecahkan puzzle
+        Tampil.ToH(*ptr, 'A', 'C', 'B');
+        Tampil.LangkahLangkah(); // Menampilkan langkah-langkah solusi
+        Tampil.PesanSolusi(); // Menampilkan pesan solusi
+
+        //Menanyakan apakah pengguna ingin mencari solusi lain
         cout << "\nTemukan solusi lain? (Y/N): ";
-        cin >> ulang;
-    } while (ulang == 'Y' || ulang == 'y'); //klo ya, dia bakalan ngulang ke pertanyaan awal di main program
+        cin >> PecahkanLagi;
+    } while (PecahkanLagi == 'Y' || PecahkanLagi == 'y');
     
-    //klo jawabannya selain y, akan dianggap ga mau ngulang
-    //dan nampilin besan bye-bye
-    Hanoi_Tower Show;
-    //menampilkan pesan goodbye
-    Show.Bye();
+    MenaraHanoi Tampil;
+    Tampil.PesanSelamatTinggal(); //Menampilkan pesan selamat tinggal
 
-    return 0; //opsional
+    return 0;
 }
