@@ -25,7 +25,7 @@ class MenaraHanoi {
         //Fungsi rekursif untuk memecahkan Menara Hanoi
         void ToH(int n, char asal, char target, char bantu) {
             if (n == 0) {
-                return; //Jika tidak ada cakram, tidak ada yang perlu dipindahkan
+                return; // Berhenti dan keluar dari fungsi jika tidak ada cakram untuk dipindahkan
             } else if (n > 0) {
                 //Pindahkan n-1 cakram asal tiang sumber ke tiang bantu
                 ToH(n - 1, asal, bantu, target);
