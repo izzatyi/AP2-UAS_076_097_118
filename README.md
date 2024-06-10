@@ -1,5 +1,5 @@
 LINK GOOGLE DRIVE : 
-https://drive.google.com/drive/folders/1h-RTK-k-FD--db0-1zyhXg329sDb5BVD?usp=drive_link
+https://drive.google.com/file/d/1ouHTBjAuiCPl4RaRRczaWre7-h6rhUbi/view?usp=drivesdk
 
 ANGGOTA :
 NUR ALIZA IZZATI (076)
